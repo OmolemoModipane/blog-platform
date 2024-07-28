@@ -49,12 +49,16 @@ const addComment = (postId, comment) => {
   const posts = readPosts();
   const post = posts.find(p => p.id === postId);
   if (post) {
+    comment.id = post.comments.length ? Math.max(post.comments.map(c => c.id)) + 1 : 1; // Assign a new comment ID
     post.comments.push(comment);
     writePosts(posts);
-    return post;
+    return post; // Return the updated post
   }
   return null;
 };
 
-module.exports = { getPosts, addPost, likePost, addComment };
+
+
+module.exports = { getPosts, addPost, likePost, addComment, deleteComment };
+
 
