@@ -14,6 +14,11 @@ app.get('/api/posts', (req, res) => {
   res.json(data.getPosts());
 });
 
+// Endpoint to retrieve new posts
+app.get('/api/posts/new', (req, res) => {
+  res.json(data.getNewPosts());
+});
+
 // Endpoint to like a blog post
 app.post('/api/posts/:id/like', (req, res) => {
   const postId = parseInt(req.params.id, 10);
@@ -44,11 +49,6 @@ app.post('/api/posts/:id/comments', (req, res) => {
   }
 });
 
-
-
-
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
-
-

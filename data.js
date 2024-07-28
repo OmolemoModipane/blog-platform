@@ -21,12 +21,21 @@ const getPosts = () => {
   return readPosts();
 };
 
+// Get new posts (e.g., created in the last 7 days)
+const getNewPosts = () => {
+  const posts = readPosts();
+  const now = new Date();
+  const oneWeekAgo = new Date(now.setDate(now.getDate() - 7));
+  return posts.filter(post => new Date(post.createdAt) >= oneWeekAgo);
+};
+
 // Add a new post
 const addPost = (newPost) => {
   const posts = readPosts();
   newPost.id = posts.length ? Math.max(posts.map(p => p.id)) + 1 : 1;
   newPost.likes = 0;
   newPost.comments = []; // Initialize comments
+  newPost.createdAt = new Date().toISOString(); // Add timestamp for creation
   posts.push(newPost);
   writePosts(posts);
   return newPost;
@@ -57,8 +66,20 @@ const addComment = (postId, comment) => {
   return null;
 };
 
+// Function to delete a comment (if needed)
+const deleteComment = (postId, commentId) => {
+  const posts = readPosts();
+  const post = posts.find(p => p.id === postId);
+  if (post) {
+    const commentIndex = post.comments.findIndex(c => c.id === commentId);
+    if (commentIndex > -1) {
+      post.comments.splice(commentIndex, 1);
+      writePosts(posts);
+      return post; // Return the updated post
+    }
+  }
+  return null;
+};
 
-
-module.exports = { getPosts, addPost, likePost, addComment, deleteComment };
-
+module.exports = { getPosts, getNewPosts, addPost, likePost, addComment, deleteComment };
 
