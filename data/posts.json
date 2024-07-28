@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "title": "Post 1",
+    "content": "This is the content of post 1.",
+    "author": "John Doe",
+    "image": "https://example.com/image1.jpg",
+    "date": "2024-07-01",
+    "likes": 7,
+    "comments": [
+     
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Post 2",
+    "content": "This is the content of post 2.",
+    "author": "Jane Doe",
+    "image": "https://example.com/image2.jpg",
+    "date": "2024-07-02",
+    "likes": 4,
+    "comments": []
+  },
+  {
+    "id": 3,
+    "title": "Post 3",
+    "content": "This is the content of post 3.",
+    "author": "Bob Smith",
+    "image": "https://example.com/image3.jpg",
+    "date": "2024-07-03",
+    "likes": 3,
+    "comments": []
+  },
+  {
+    "id": 4,
+    "title": "Post 4",
+    "content": "This is the content of post 4.",
+    "author": "Alice Johnson",
+    "image": "https://example.com/image4.jpg",
+    "date": "2024-07-04",
+    "likes": 3,
+    "comments": []
+  }
+]
