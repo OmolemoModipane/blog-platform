@@ -1,3 +1,4 @@
+// data.js
 const fs = require('fs');
 const path = require('path');
 
@@ -13,7 +14,11 @@ const readPosts = () => {
 
 // Helper function to write posts to JSON file
 const writePosts = (posts) => {
-  fs.writeFileSync(filePath, JSON.stringify(posts, null, 2), 'utf8');
+  try {
+    fs.writeFileSync(filePath, JSON.stringify(posts, null, 2), 'utf8');
+  } catch (error) {
+    console.error('Error writing posts to file:', error);
+  }
 };
 
 // Get all posts
@@ -66,20 +71,16 @@ const addComment = (postId, comment) => {
   return null;
 };
 
-// Function to delete a comment (if needed)
-const deleteComment = (postId, commentId) => {
+// Function to delete a post
+const deletePost = (postId) => {
   const posts = readPosts();
-  const post = posts.find(p => p.id === postId);
-  if (post) {
-    const commentIndex = post.comments.findIndex(c => c.id === commentId);
-    if (commentIndex > -1) {
-      post.comments.splice(commentIndex, 1);
-      writePosts(posts);
-      return post; // Return the updated post
-    }
+  const postIndex = posts.findIndex(p => p.id === postId);
+  if (postIndex > -1) {
+    posts.splice(postIndex, 1); // Remove the post
+    writePosts(posts);
+    return true; // Indicate successful deletion
   }
-  return null;
+  return false; // Indicate post not found
 };
 
-module.exports = { getPosts, getNewPosts, addPost, likePost, addComment, deleteComment };
-
+module.exports = { getPosts, getNewPosts, addPost, likePost, addComment, deletePost };

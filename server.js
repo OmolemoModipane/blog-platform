@@ -1,3 +1,4 @@
+// server.js
 const express = require('express');
 const cors = require('cors');
 const data = require('./data'); // Import the data module
@@ -49,6 +50,17 @@ app.post('/api/posts/:id/comments', (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
+// Endpoint to delete a blog post
+app.delete('/api/posts/:id', (req, res) => {
+    const postId = parseInt(req.params.id, 10);
+    const result = data.deletePost(postId);
+    if (result) {
+      res.json({ message: 'Post deleted successfully' });
+    } else {
+      res.status(404).json({ error: 'Post not found' });
+    }
+  });
+  
+  app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
+  });
