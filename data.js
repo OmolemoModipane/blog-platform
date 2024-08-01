@@ -21,12 +21,12 @@ const writePosts = (posts) => {
   }
 };
 
-// Get all posts
+
 const getPosts = () => {
   return readPosts();
 };
 
-// Get new posts (e.g., created in the last 7 days)
+// Get new posts (
 const getNewPosts = () => {
   const posts = readPosts();
   const now = new Date();
@@ -39,7 +39,7 @@ const addPost = (newPost) => {
   const posts = readPosts();
   newPost.id = posts.length ? Math.max(posts.map(p => p.id)) + 1 : 1;
   newPost.likes = 0;
-  newPost.comments = []; // Initialize comments
+  newPost.comments = []; 
   newPost.createdAt = new Date().toISOString(); // Add timestamp for creation
   posts.push(newPost);
   writePosts(posts);
@@ -63,10 +63,10 @@ const addComment = (postId, comment) => {
   const posts = readPosts();
   const post = posts.find(p => p.id === postId);
   if (post) {
-    comment.id = post.comments.length ? Math.max(post.comments.map(c => c.id)) + 1 : 1; // Assign a new comment ID
+    comment.id = post.comments.length ? Math.max(post.comments.map(c => c.id)) + 1 : 1; 
     post.comments.push(comment);
     writePosts(posts);
-    return post; // Return the updated post
+    return post; 
   }
   return null;
 };
@@ -76,11 +76,11 @@ const deletePost = (postId) => {
   const posts = readPosts();
   const postIndex = posts.findIndex(p => p.id === postId);
   if (postIndex > -1) {
-    posts.splice(postIndex, 1); // Remove the post
+    posts.splice(postIndex, 1); 
     writePosts(posts);
-    return true; // Indicate successful deletion
+    return true; 
   }
-  return false; // Indicate post not found
+  return false; 
 };
 
 module.exports = { getPosts, getNewPosts, addPost, likePost, addComment, deletePost };
