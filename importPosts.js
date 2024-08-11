@@ -1,28 +1,27 @@
 const fs = require('fs');
 const path = require('path');
-const pool = require('./db'); // Ensure this points to your db connection pool module
+const pool = require('./db'); 
 
 // Load the JSON file
 const postsFilePath = path.join(__dirname, 'data/posts.json');
 const postsData = JSON.parse(fs.readFileSync(postsFilePath, 'utf-8'));
 
 // Define the maximum length for comments
-const MAX_COMMENT_LENGTH = 500; // Adjust based on your database schema
-
+const MAX_COMMENT_LENGTH = 500; 
 // Function to insert posts into the database
 const insertPosts = async () => {
     try {
-        // Create a mapping of author names to IDs (replace with your actual mapping logic)
+        // Create a mapping of author names to IDs 
         const authorIdMap = {
-            'Madeline Miles': 1, // Example mapping; replace with actual values
+            'Madeline Miles': 1, 
             'YASHI SHARMA': 2,
             'Neptune9': 3,
             'Monique Valcour': 4
-            // Add more mappings as needed
+            
         };
 
         for (const post of postsData) {
-            const { title, content, author, date, likes, comments } = post; // Note: Adjust based on your JSON structure
+            const { title, content, author, date, likes, comments } = post; 
 
             // Insert the post into the posts table (without 'image')
             const [result] = await pool.query(
@@ -31,7 +30,7 @@ const insertPosts = async () => {
             );
             console.log(`Post "${title}" inserted with ID: ${result.insertId}`);
 
-            // If there are comments, insert them into the comments table
+           
             if (comments && comments.length > 0) {
                 for (const comment of comments) {
                     // Truncate comment content if it exceeds the maximum length
