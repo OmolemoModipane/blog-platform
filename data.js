@@ -1,10 +1,10 @@
-// data.js
+
 const fs = require('fs');
 const path = require('path');
 
 const filePath = path.join(__dirname, 'data', 'posts.json');
 
-// Helper function to read posts from JSON file
+
 const readPosts = () => {
   if (fs.existsSync(filePath)) {
     return JSON.parse(fs.readFileSync(filePath, 'utf8'));
@@ -12,7 +12,7 @@ const readPosts = () => {
   return [];
 };
 
-// Helper function to write posts to JSON file
+
 const writePosts = (posts) => {
   try {
     fs.writeFileSync(filePath, JSON.stringify(posts, null, 2), 'utf8');
