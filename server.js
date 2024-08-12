@@ -25,16 +25,16 @@ app.get('/api/posts', (req, res) => {
     });
 });
 
-// Get new blog posts (Assuming new posts are the latest ones)
+// Get new blog posts 
 app.get('/api/posts/new', (req, res) => {
-    const sql = 'SELECT * FROM posts ORDER BY created_at DESC LIMIT 5'; // Adjust as needed
+    const sql = 'SELECT * FROM posts ORDER BY created_at DESC LIMIT 5'; 
     connection.query(sql, (err, results) => {
         if (err) return handleError(err, res);
         res.json(results);
     });
 });
 
-// Like a post (Assuming you have a 'likes' column)
+// Like a post 
 app.post('/api/posts/:id/like', (req, res) => {
     const postId = parseInt(req.params.id, 10);
     const sql = 'UPDATE posts SET likes = likes + 1 WHERE id = ?';
