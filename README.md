@@ -1,4 +1,5 @@
 Blog Platform Backend
+
 This is the backend server for the Blog Platform application. It handles requests related to blog posts, comments, and user management. The backend is built with Node.js and Express, using MySQL for data storage.
 
 Features
