@@ -1,10 +1,11 @@
+require('dotenv').config(); // Load environment variables from .env
 const express = require('express');
 const cors = require('cors');
-const mysql = require('mysql2'); // Ensure mysql2 is installed
+const mysql = require('mysql2');
 const connection = require('./db'); // Import the database connection
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());

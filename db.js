@@ -1,12 +1,13 @@
+require('dotenv').config(); // Load environment variables from .env file
 const mysql = require('mysql2');
 
-// Create a connection pool
+// Create a connection pool using environment variables
 const pool = mysql.createPool({
-    host: 'localhost',           
-    user: 'root',                
-    password: 'Omolemo01#',     
-    database: 'blog_database',  
-    connectionLimit: 10          
+    host: process.env.DB_HOST,          
+    user: process.env.DB_USER,          
+    password: process.env.DB_PASSWORD,  
+    database: process.env.DB_NAME,      
+    connectionLimit: 10                 
 });
 
 // Promisify the pool's query function
