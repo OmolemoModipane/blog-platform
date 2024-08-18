@@ -1,7 +1,6 @@
 require('dotenv').config(); // Load environment variables from .env
 const express = require('express');
 const cors = require('cors');
-const mysql = require('mysql2');
 const connection = require('./db'); // Import the database connection
 
 const app = express();
@@ -18,50 +17,59 @@ const handleError = (err, res) => {
 };
 
 // Graceful shutdown
-const gracefulShutdown = () => {
+const gracefulShutdown = async () => {
     console.log('Shutting down gracefully...');
-    connection.end((err) => {
-        if (err) console.error('Error during MySQL disconnection:', err);
+    try {
+        await connection.end(); // Properly end the connection pool
         process.exit(0);
-    });
+    } catch (err) {
+        console.error('Error during MySQL disconnection:', err);
+        process.exit(1);
+    }
 };
 
 process.on('SIGTERM', gracefulShutdown);
 process.on('SIGINT', gracefulShutdown);
 
 // Get all blog posts
-app.get('/api/posts', (req, res) => {
+app.get('/api/posts', async (req, res) => {
     const sql = 'SELECT * FROM posts';
-    connection.query(sql, (err, results) => {
-        if (err) return handleError(err, res);
+    try {
+        const [results] = await connection.query(sql);
         res.json(results);
-    });
+    } catch (err) {
+        handleError(err, res);
+    }
 });
 
 // Get new blog posts 
-app.get('/api/posts/new', (req, res) => {
+app.get('/api/posts/new', async (req, res) => {
     const sql = 'SELECT * FROM posts ORDER BY created_at DESC LIMIT 5';
-    connection.query(sql, (err, results) => {
-        if (err) return handleError(err, res);
+    try {
+        const [results] = await connection.query(sql);
         res.json(results);
-    });
+    } catch (err) {
+        handleError(err, res);
+    }
 });
 
 // Like a post 
-app.post('/api/posts/:id/like', (req, res) => {
+app.post('/api/posts/:id/like', async (req, res) => {
     const postId = parseInt(req.params.id, 10);
     const sql = 'UPDATE posts SET likes = likes + 1 WHERE id = ?';
-    connection.query(sql, [postId], (err, result) => {
-        if (err) return handleError(err, res);
+    try {
+        const [result] = await connection.query(sql, [postId]);
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: 'Post not found' });
         }
         res.json({ message: 'Post liked successfully' });
-    });
+    } catch (err) {
+        handleError(err, res);
+    }
 });
 
 // Create a new post
-app.post('/api/posts', (req, res) => {
+app.post('/api/posts', async (req, res) => {
     const { title, content, author_id } = req.body;
 
     // Check for missing fields
@@ -70,14 +78,16 @@ app.post('/api/posts', (req, res) => {
     }
 
     const sql = 'INSERT INTO posts (title, content, author_id) VALUES (?, ?, ?)';
-    connection.query(sql, [title, content, author_id], (err, result) => {
-        if (err) return handleError(err, res);
+    try {
+        const [result] = await connection.query(sql, [title, content, author_id]);
         res.json({ id: result.insertId, message: 'Post created successfully' });
-    });
+    } catch (err) {
+        handleError(err, res);
+    }
 });
 
 // Add a comment to a post
-app.post('/api/posts/:id/comments', (req, res) => {
+app.post('/api/posts/:id/comments', async (req, res) => {
     const postId = parseInt(req.params.id, 10);
     const { content, author_id } = req.body;
 
@@ -87,25 +97,30 @@ app.post('/api/posts/:id/comments', (req, res) => {
     }
 
     const sql = 'INSERT INTO comments (content, post_id, author_id) VALUES (?, ?, ?)';
-    connection.query(sql, [content, postId, author_id], (err, result) => {
-        if (err) return handleError(err, res);
+    try {
+        const [result] = await connection.query(sql, [content, postId, author_id]);
         res.json({ id: result.insertId, message: 'Comment added successfully' });
-    });
+    } catch (err) {
+        handleError(err, res);
+    }
 });
 
 // Delete a post
-app.delete('/api/posts/:id', (req, res) => {
+app.delete('/api/posts/:id', async (req, res) => {
     const postId = parseInt(req.params.id, 10);
     const sql = 'DELETE FROM posts WHERE id = ?';
-    connection.query(sql, [postId], (err, result) => {
-        if (err) return handleError(err, res);
+    try {
+        const [result] = await connection.query(sql, [postId]);
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: 'Post not found' });
         }
         res.json({ message: 'Post deleted successfully' });
-    });
+    } catch (err) {
+        handleError(err, res);
+    }
 });
 
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
 });
+
