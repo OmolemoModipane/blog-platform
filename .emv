@@ -1,5 +1,0 @@
-PORT=3001
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=Omolemo01#
-DB_NAME=blog_database

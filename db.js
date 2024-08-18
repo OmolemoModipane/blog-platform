@@ -1,26 +1,43 @@
-require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config(); 
 const mysql = require('mysql2');
 
-// Create a connection pool using environment variables
-const pool = mysql.createPool({
-    host: process.env.DB_HOST,          
-    user: process.env.DB_USER,          
-    password: process.env.DB_PASSWORD,  
-    database: process.env.DB_NAME,      
-    connectionLimit: 10                 
+// Log the connection configuration
+console.log('Connecting to MySQL with the following configuration:', {
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    database: process.env.DB_NAME
 });
 
-// Promisify the pool's query function
-const promisePool = pool.promise();
+// Create a single connection using environment variables
+const connection = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    connectTimeout: 30000
+});
 
-// Optional: Test the connection
-promisePool.getConnection()
-    .then(connection => {
-        console.log('Connected to MySQL database successfully!');
-        connection.release(); // Release the connection back to the pool
-    })
-    .catch(err => {
-        console.error('Error connecting to MySQL database:', err.message);
-    });
+// Connect to the database
+connection.connect(err => {
+    if (err) {
+        console.error('Error connecting to MySQL database:', {
+            message: err.message,
+            code: err.code,
+            errno: err.errno,
+            stack: err.stack
+        });
+        return;
+    }
+    console.log('Connected to MySQL database successfully!');
+});
 
-module.exports = promisePool;
+// Add a query to test the connection after successful connection
+connection.query('SELECT 1', (err, results) => {
+    if (err) {
+        console.error('Error running test query:', err);
+    } else {
+        console.log('Test query result:', results);
+    }
+});
+
+module.exports = connection;

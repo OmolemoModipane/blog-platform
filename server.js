@@ -17,6 +17,18 @@ const handleError = (err, res) => {
     res.status(500).json({ error: 'Database query error', details: err.message });
 };
 
+// Graceful shutdown
+const gracefulShutdown = () => {
+    console.log('Shutting down gracefully...');
+    connection.end((err) => {
+        if (err) console.error('Error during MySQL disconnection:', err);
+        process.exit(0);
+    });
+};
+
+process.on('SIGTERM', gracefulShutdown);
+process.on('SIGINT', gracefulShutdown);
+
 // Get all blog posts
 app.get('/api/posts', (req, res) => {
     const sql = 'SELECT * FROM posts';
@@ -28,7 +40,7 @@ app.get('/api/posts', (req, res) => {
 
 // Get new blog posts 
 app.get('/api/posts/new', (req, res) => {
-    const sql = 'SELECT * FROM posts ORDER BY created_at DESC LIMIT 5'; 
+    const sql = 'SELECT * FROM posts ORDER BY created_at DESC LIMIT 5';
     connection.query(sql, (err, results) => {
         if (err) return handleError(err, res);
         res.json(results);
