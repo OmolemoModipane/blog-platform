@@ -1,7 +1,6 @@
 require('dotenv').config(); // Load environment variables from .env
 const express = require('express');
 const cors = require('cors');
-const mysql = require('mysql2');
 const connection = require('./db'); // Import the database connection
 
 const app = express();
@@ -38,7 +37,7 @@ app.get('/api/posts', (req, res) => {
     });
 });
 
-// Get new blog posts
+// Get new blog posts 
 app.get('/api/posts/new', (req, res) => {
     const sql = 'SELECT * FROM posts ORDER BY created_at DESC LIMIT 5';
     connection.query(sql, (err, results) => {
@@ -47,7 +46,7 @@ app.get('/api/posts/new', (req, res) => {
     });
 });
 
-// Like a post
+// Like a post 
 app.post('/api/posts/:id/like', (req, res) => {
     const postId = parseInt(req.params.id, 10);
     const sql = 'UPDATE posts SET likes = likes + 1 WHERE id = ?';
@@ -86,7 +85,7 @@ app.post('/api/posts/:id/comments', (req, res) => {
         return res.status(400).json({ error: 'Missing required fields: content and author_id' });
     }
 
-    const sql = 'INSERT INTO comments (content, posts_id, author_id) VALUES (?, ?, ?)';
+    const sql = 'INSERT INTO comments (content, post_id, author_id) VALUES (?, ?, ?)';
     connection.query(sql, [content, postId, author_id], (err, result) => {
         if (err) return handleError(err, res);
         res.json({ id: result.insertId, message: 'Comment added successfully' });
