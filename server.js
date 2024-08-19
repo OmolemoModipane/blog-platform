@@ -62,15 +62,15 @@ app.post('/api/posts/:id/like', (req, res) => {
 
 // Create a new post
 app.post('/api/posts', (req, res) => {
-    const { title, content, author_id } = req.body;
+    const { title, content, author_id, image } = req.body;
 
     // Check for missing fields
     if (!title || !content || !author_id) {
         return res.status(400).json({ error: 'Missing required fields: title, content, and author_id' });
     }
 
-    const sql = 'INSERT INTO posts (title, content, author_id) VALUES (?, ?, ?)';
-    connection.query(sql, [title, content, author_id], (err, result) => {
+    const sql = 'INSERT INTO posts (title, content, author_id, image) VALUES (?, ?, ?, ?)';
+    connection.query(sql, [title, content, author_id, image || null], (err, result) => {
         if (err) return handleError(err, res);
         res.json({ id: result.insertId, message: 'Post created successfully' });
     });
@@ -86,7 +86,7 @@ app.post('/api/posts/:id/comments', (req, res) => {
         return res.status(400).json({ error: 'Missing required fields: content and author_id' });
     }
 
-    const sql = 'INSERT INTO comments (content, posts_id, author_id) VALUES (?, ?, ?)';
+    const sql = 'INSERT INTO comments (content, post_id, author_id) VALUES (?, ?, ?)';
     connection.query(sql, [content, postId, author_id], (err, result) => {
         if (err) return handleError(err, res);
         res.json({ id: result.insertId, message: 'Comment added successfully' });
@@ -109,4 +109,3 @@ app.delete('/api/posts/:id', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
 });
-
