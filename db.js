@@ -14,11 +14,11 @@ const pool = mysql.createPool({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    port: process.env.DB_PORT || 3306, // Default MySQL port
-    waitForConnections: true,   // Wait for a connection if none are available
-    connectionLimit: 10,        // Maximum number of connections in the pool
-    queueLimit: 0,              // No limit on the number of queued requests
-    connectTimeout: 30000       // 30 seconds connection timeout
+    port: process.env.DB_PORT,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+    connectTimeout: 30000
 });
 
 // Test connection after successful connection pool creation
@@ -30,5 +30,4 @@ pool.query('SELECT 1', (err, results) => {
     }
 });
 
-// Export the pool with promise-based queries
-module.exports = pool.promise();
+module.exports = pool.promise(); // Export the pool with promise-based queries

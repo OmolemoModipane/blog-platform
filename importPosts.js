@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const pool = require('./db'); 
+const pool = require('./db');
 
 // Load the JSON file
 const postsFilePath = path.join(__dirname, 'data/posts.json');
@@ -14,16 +14,16 @@ const insertPosts = async () => {
     try {
         // Create a mapping of author names to IDs 
         const authorIdMap = {
-            'Madeline Miles': 1, 
-            'YASHI SHARMA': 2,
-            'Neptune9': 3,
-            'Monique Valcour': 4
+            'Madeline Miles': 2, 
+            'YASHI SHARMA': 3,
+            'Neptune9': 4,
+            'Monique Valcour': 5
         };
 
         for (const post of postsData) {
             const { title, content, author, date, likes, comments } = post; 
 
-            // Insert the post into the posts table
+            // Insert the post into the posts table (without 'image')
             const [result] = await pool.query(
                 'INSERT INTO posts (title, content, author_id, date, likes) VALUES (?, ?, ?, ?, ?)',
                 [title, content, authorIdMap[author] || null, date, likes]

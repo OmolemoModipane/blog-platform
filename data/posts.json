@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "id": 2,
     "title": "Future Ready You",
     "content": "Research shows that setting specific goals helps people get what they want. Take advantage of this fact by setting both short and long term goals for yourself. Write down a list of everything you want to achieve. Check over your list and seriously consider whether or not it is realistic.",
     "author_id": "Madeline Miles",
@@ -15,7 +15,7 @@
     ]
   },
   {
-    "id": 2,
+    "id": 3,
     "title": "Technology vs The World",
     "content": "In the face of global environmental challenges, technology has become a powerful ally in the quest for sustainability. Innovations such as renewable energy sources, energy-efficient technologies, and waste reduction solutions are contributing to a more sustainable future. Advanced monitoring systems and data analytics are helping track and combat deforestation, climate change, and pollution. Technology is not only mitigating the negative impact on the environment but is also providing solutions to create a more sustainable and eco-friendly world",
     "author_id": "YASHI SHARMA",
@@ -25,7 +25,7 @@
     "comments": []
   },
   {
-    "id": 3,
+    "id": 4,
     "title": "When in Doubt, GOOGLE IT! Tech tips for beginners ",
     "content": "Are you a beginner when it comes to using technology for your business? Do you feel overwhelmed by all of the different options and features? As a small business owner, you’re always looking for ways to keep your business running smoothly and efficiently. And when it comes to technology, there are always new tools and tips to learn about in order to help improve your workflow. In this blog post, we’ll provide some tech tips for beginners – from the basics of using a computer to more advanced info on using productivity software. So whether you’re just starting out with technology or looking for ways to step up your game, read on for some helpful tech tips!",
     "author_id": "Neptune9",
@@ -35,7 +35,7 @@
     "comments": []
   },
   {
-    "id": 4,
+    "id": 5,
     "title": "Beating Burnout",
     "content": "Heavy workloads and deadline pressures are a fact of managerial life. Who doesn’t feel overwhelmed or stretched thin sometimes? But when relentless work stress pushes you into the debilitating state we call burnout, it is a serious problem, affecting not just your own performance and well-being, both on the job and off, but also that of your team and your organization.",
     "author_id": "Monique Valcour",
