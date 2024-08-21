@@ -60,6 +60,25 @@ app.post('/api/posts/:id/like', (req, res) => {
     });
 });
 
+// Get a single post by ID
+app.get('/api/posts/:id', (req, res) => {
+    const postId = parseInt(req.params.id, 10);
+
+    if (isNaN(postId)) {
+        return res.status(400).json({ error: 'Invalid post ID' });
+    }
+
+    const sql = 'SELECT * FROM posts WHERE id = ?';
+    connection.query(sql, [postId], (err, result) => {
+        if (err) return handleError(err, res);
+        if (result.length === 0) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+        res.json(result[0]);
+    });
+});
+
+
 // Create a new post
 app.post('/api/posts', (req, res) => {
     const { title, content, author_id } = req.body;
